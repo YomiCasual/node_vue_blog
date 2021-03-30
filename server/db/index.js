@@ -9,4 +9,16 @@ const conn = mysql.createPool({
 	port: '3306',
 });
 
+
+export const queryDatabase = (query, params) => {
+    return new Promise((resolve, reject) => {
+        conn.query(query, params, (err, result) => {
+            if(err) {
+                return reject(err)
+            }
+            return resolve(result)
+        })
+    })
+}
+
 export default conn

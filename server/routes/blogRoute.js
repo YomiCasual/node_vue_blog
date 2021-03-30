@@ -1,7 +1,7 @@
 import multer from 'multer'
 import express from 'express'
 import path from 'path'
-import {createBlog, getBlogByUser} from '../controllers/blogController.js'
+import {createBlog, getBlogByUser, editBlog, deleteBlog} from '../controllers/blogController.js'
 import { authenticateJWT } from '../config/auth.js';
 
 
@@ -24,6 +24,8 @@ var storage = multer.diskStorage({
 //Create Usre
 router.post('/create', authenticateJWT,  upload.array('avatar', 12), createBlog);
 router.get('/',authenticateJWT, getBlogByUser);
+router.patch('/edit/:blogId',authenticateJWT, upload.array('avatar', 12),  editBlog);
+router.delete('/delete/:id',authenticateJWT, deleteBlog);
 
 
 export default router
