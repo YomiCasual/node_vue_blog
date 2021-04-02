@@ -34,3 +34,23 @@ export const authenticateJWT = async (req, res, next) => {
 		});
 	}
 };
+
+export const checkLoggedIn = async (req, res, next) => {
+	let token = req.headers.authorization.split(' ')[1];
+	if (token) {
+		try {
+			let authenticated = await jwt.verify(token, config.jsonHash);
+			if (authenticated) {
+				req.user = authenticated;
+				next();
+			} else {
+				next();
+			}
+		} catch (err) {
+			res.status(400).json({
+				isSuccessful: false,
+				message: err,
+			});
+		}
+	}
+};
